@@ -14,8 +14,8 @@ async def send_bard_message(chat: ChatSession, message: str, images, thread: dis
 
         response = await chat.send_message(prompt=message, images=images_bytes)
         text = response.text
-        text = re.sub(r'\[\d+ Images of .+?\]', '', text)
-        text = re.sub(r'\[Image of [^\]]+\]', '', text)
+        text = re.sub(r'^.*?\[\d+ Images of .+?\].*\n?', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^.*?\[Image of [^\]]+\].*\n?', '', text, flags=re.MULTILINE)
         text = text.strip()
 
         if response.images:
